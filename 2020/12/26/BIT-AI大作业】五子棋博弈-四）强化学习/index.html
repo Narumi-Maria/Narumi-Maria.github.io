@@ -13,14 +13,14 @@
   
   <title>【BIT AI大作业】五子棋博弈 (四）强化学习</title>
   
-  <link rel="canonical" href="https://github.com/Narumi-Maria/Narumi-Maria.github.io/2020/12/26/BIT-AI%E5%A4%A7%E4%BD%9C%E4%B8%9A%E3%80%91%E4%BA%94%E5%AD%90%E6%A3%8B%E5%8D%9A%E5%BC%88-%E5%9B%9B%EF%BC%89%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">
+  <link rel="canonical" href="http://youwebsit.com/2020/12/26/BIT-AI%E5%A4%A7%E4%BD%9C%E4%B8%9A%E3%80%91%E4%BA%94%E5%AD%90%E6%A3%8B%E5%8D%9A%E5%BC%88-%E5%9B%9B%EF%BC%89%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">
   
   <meta name="description" content="实验要求采用人工智能方法解决五子棋博弈问题，要求如下：  能够用拍照方式识别五子棋下棋过程中当前落子的位置，识别程序中应使用到监督学习算法。 采用一种博弈搜索算法，实现五子棋博弈程序，其中对棋局状态的判断采用人为设定函数方式。 将上述博弈搜索算法中判断棋局状态的函数改为一种人工神经网络模型，并采用进">
   
   
   <meta name="author" content="John Doe">
   
-  <meta property="og:image" content="https://github.com/Narumi-Maria/Narumi-Maria.github.ioundefined">
+  <meta property="og:image" content="http://youwebsit.comundefined">
   
   <meta property="og:site_name" content="Hexo" />
   <meta property="og:type" content="article" />
@@ -28,7 +28,7 @@
   
   <meta property="og:description" content="实验要求采用人工智能方法解决五子棋博弈问题，要求如下：  能够用拍照方式识别五子棋下棋过程中当前落子的位置，识别程序中应使用到监督学习算法。 采用一种博弈搜索算法，实现五子棋博弈程序，其中对棋局状态的判断采用人为设定函数方式。 将上述博弈搜索算法中判断棋局状态的函数改为一种人工神经网络模型，并采用进">
   
-  <meta property="og:url" content="https://github.com/Narumi-Maria/Narumi-Maria.github.io/2020/12/26/BIT-AI%E5%A4%A7%E4%BD%9C%E4%B8%9A%E3%80%91%E4%BA%94%E5%AD%90%E6%A3%8B%E5%8D%9A%E5%BC%88-%E5%9B%9B%EF%BC%89%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" />
+  <meta property="og:url" content="http://youwebsit.com/2020/12/26/BIT-AI%E5%A4%A7%E4%BD%9C%E4%B8%9A%E3%80%91%E4%BA%94%E5%AD%90%E6%A3%8B%E5%8D%9A%E5%BC%88-%E5%9B%9B%EF%BC%89%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" />
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="【BIT AI大作业】五子棋博弈 (四）强化学习">
@@ -36,9 +36,9 @@
   <meta name="twitter:description" content="实验要求采用人工智能方法解决五子棋博弈问题，要求如下：  能够用拍照方式识别五子棋下棋过程中当前落子的位置，识别程序中应使用到监督学习算法。 采用一种博弈搜索算法，实现五子棋博弈程序，其中对棋局状态的判断采用人为设定函数方式。 将上述博弈搜索算法中判断棋局状态的函数改为一种人工神经网络模型，并采用进">
   
   
-  <meta name="twitter:image" content="https://github.com/Narumi-Maria/Narumi-Maria.github.ioundefined">
+  <meta name="twitter:image" content="http://youwebsit.comundefined">
   
-  <meta name="twitter:url" content="https://github.com/Narumi-Maria/Narumi-Maria.github.io/2020/12/26/BIT-AI%E5%A4%A7%E4%BD%9C%E4%B8%9A%E3%80%91%E4%BA%94%E5%AD%90%E6%A3%8B%E5%8D%9A%E5%BC%88-%E5%9B%9B%EF%BC%89%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" />
+  <meta name="twitter:url" content="http://youwebsit.com/2020/12/26/BIT-AI%E5%A4%A7%E4%BD%9C%E4%B8%9A%E3%80%91%E4%BA%94%E5%AD%90%E6%A3%8B%E5%8D%9A%E5%BC%88-%E5%9B%9B%EF%BC%89%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" />
 
   <!-- Mobile Specific Metas
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -205,7 +205,7 @@
 <h4 id="实验过程"><a href="#实验过程" class="headerlink" title="实验过程"></a><a href="">实验过程</a></h4><p><a href="">1.搭建一个由三个卷积层、两个池化层、两个全连接层的卷积神经网络。</a></p>
 <p>网络输入为batchaize<em>1</em>15*15的棋盘列表，这个棋盘列表的1表示己方棋子，-1表示敌方棋子。输出为一个值，表示棋盘分数。</p>
 <p>在这里，我对所有的卷积层和线性层都加了偏置，且将它们初始化为均值为0，方差为0.1的随机数。其结构如下图所示：</p>
-<p><img src="/Narumi-Maria.github.io/images/pasted-25.png" alt="upload successful"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Narumi-Maria/CDN/images/pasted-25.png" alt="upload successful"></p>
 <p><a href="">2.搭建一个类DQN，用于训练棋盘估值的卷积神经网络。</a></p>
 <p><a href="">1）首先简要介绍一下Q-Learning和DeepQ-Learning。</a><br>在博弈过程中，强化学习与监督学习本质的区别是，监督学习是给定一个场景和最佳的动作对，训练目标是使得模型的输出和期望的输出尽可能地接近。放在这里来看，就是像实验三那样，给定一个输入棋盘和棋盘的正确分数，使网络的输出尽可能和分数接近。而强化学习是给定场景（state），让模型自己选择动作（action），再与环境交互得到新的场景和当前动作的奖励（reward），一直交互到游戏结束，得到一个由每个场景的reward进行加和的总奖励，优化的目标就是使这一总奖励最大。放在这里来看，就是让模型不断相互博弈，等待一局结束后，再根据它的输赢反过去调节网络的参数。走赢的棋盘分数大，走输的棋盘分数小。</p>
 <p>Q-Learning是强化学习中的一种value-base的算法，Q即为Q(s,a)，表示在场景为s的状态下，采取动作a能够获得动作收益的期望。算法的主要思想是将state和action构成一张Q_table来存储Q值，然后根据Q值选择能获得最大收益的动作。假设模型现在所处的场景为s1，可以选择动作a1、a2。那么我们就比较Q(s1,a1)的值和Q(s1,a2)的值，选择大的那个动作走下去，得到下一个场景，再重复这样的选择过程。</p>
