@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <!-- Minima -->
+  <!-- Hexo theme created by @adisaktijrs -->
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+
+  
+  <title>【BIT AI大作业】五子棋博弈 (三）进化网络</title>
+  
+  <link rel="canonical" href="https://github.com/Narumi-Maria/Narumi-Maria.github.io/2020/12/26/%E3%80%90BIT-AI%E5%A4%A7%E4%BD%9C%E4%B8%9A%E3%80%91%E4%BA%94%E5%AD%90%E6%A3%8B%E5%8D%9A%E5%BC%88-%E4%BA%8C%EF%BC%89%E5%8D%9A%E5%BC%88%E6%90%9C%E7%B4%A2/">
+  
+  <meta name="description" content="实验要求采用人工智能方法解决五子棋博弈问题，要求如下：  能够用拍照方式识别五子棋下棋过程中当前落子的位置，识别程序中应使用到监督学习算法。 采用一种博弈搜索算法，实现五子棋博弈程序，其中对棋局状态的判断采用人为设定函数方式。 将上述博弈搜索算法中判断棋局状态的函数改为一种人工神经网络模型，并采用进">
+  
+  
+  <meta name="author" content="John Doe">
+  
+  <meta property="og:image" content="https://github.com/Narumi-Maria/Narumi-Maria.github.ioundefined">
+  
+  <meta property="og:site_name" content="Hexo" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="【BIT AI大作业】五子棋博弈 (三）进化网络" />
+  
+  <meta property="og:description" content="实验要求采用人工智能方法解决五子棋博弈问题，要求如下：  能够用拍照方式识别五子棋下棋过程中当前落子的位置，识别程序中应使用到监督学习算法。 采用一种博弈搜索算法，实现五子棋博弈程序，其中对棋局状态的判断采用人为设定函数方式。 将上述博弈搜索算法中判断棋局状态的函数改为一种人工神经网络模型，并采用进">
+  
+  <meta property="og:url" content="https://github.com/Narumi-Maria/Narumi-Maria.github.io/2020/12/26/%E3%80%90BIT-AI%E5%A4%A7%E4%BD%9C%E4%B8%9A%E3%80%91%E4%BA%94%E5%AD%90%E6%A3%8B%E5%8D%9A%E5%BC%88-%E4%BA%8C%EF%BC%89%E5%8D%9A%E5%BC%88%E6%90%9C%E7%B4%A2/" />
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="【BIT AI大作业】五子棋博弈 (三）进化网络">
+  
+  <meta name="twitter:description" content="实验要求采用人工智能方法解决五子棋博弈问题，要求如下：  能够用拍照方式识别五子棋下棋过程中当前落子的位置，识别程序中应使用到监督学习算法。 采用一种博弈搜索算法，实现五子棋博弈程序，其中对棋局状态的判断采用人为设定函数方式。 将上述博弈搜索算法中判断棋局状态的函数改为一种人工神经网络模型，并采用进">
+  
+  
+  <meta name="twitter:image" content="https://github.com/Narumi-Maria/Narumi-Maria.github.ioundefined">
+  
+  <meta name="twitter:url" content="https://github.com/Narumi-Maria/Narumi-Maria.github.io/2020/12/26/%E3%80%90BIT-AI%E5%A4%A7%E4%BD%9C%E4%B8%9A%E3%80%91%E4%BA%94%E5%AD%90%E6%A3%8B%E5%8D%9A%E5%BC%88-%E4%BA%8C%EF%BC%89%E5%8D%9A%E5%BC%88%E6%90%9C%E7%B4%A2/" />
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Preload fonts
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="preload" href="../fonts/dm-serif-display-v4-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../fonts/inter-v2-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  
+<link rel="stylesheet" href="/css/normalize.css">
+
+  
+<link rel="stylesheet" href="/css/skeleton.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+<link rel="stylesheet" href="/css/prism-dark.css">
+
+  
+<link rel="stylesheet" href="/css/prism-line-numbers.css">
+
+  <!-- User css -->
+  
+  
+<link rel="stylesheet" href="/css/user.css">
+
+  
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+
+  <!-- Custom Theme Color Style
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <style>
+  a:not(.icon) {
+    text-decoration-color: #0FA0CE;
+    background-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 50%,
+      #0FA0CE 50%
+    );
+  }
+  blockquote {
+    border-left: 8px solid #0FA0CE;
+  }
+  .nanobar .bar {
+    background: #0FA0CE;
+  }
+  .button.button-primary:hover,
+  button.button-primary:hover,
+  input[type="submit"].button-primary:hover,
+  input[type="reset"].button-primary:hover,
+  input[type="button"].button-primary:hover,
+  .button.button-primary:focus,
+  button.button-primary:focus,
+  input[type="submit"].button-primary:focus,
+  input[type="reset"].button-primary:focus,
+  input[type="button"].button-primary:focus {
+    background-color: #0FA0CE;
+    border-color: #0FA0CE;
+  }
+  input[type="email"]:focus,
+  input[type="number"]:focus,
+  input[type="search"]:focus,
+  input[type="text"]:focus,
+  input[type="tel"]:focus,
+  input[type="url"]:focus,
+  input[type="password"]:focus,
+  textarea:focus,
+  select:focus {
+    border: 1px solid #0FA0CE;
+  }
+</style>
+
+  <!-- Google Analytics (With Privacy Settings On)
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div>
+
+        <div class="row">
+  <div class="two columns" style="max-width: 50px">
+    <h1 class="mt-2 mode">
+      <div onclick=setDarkMode(true) id="darkBtn">🌑</div>
+      <div onclick=setDarkMode(false) id="lightBtn" class=hidden>☀️</div>
+      <script >
+        if (localStorage.getItem('preferredTheme') == 'dark') {
+          setDarkMode(true)
+        }
+        function setDarkMode(isDark) {
+          var darkBtn = document.getElementById('darkBtn')
+          var lightBtn = document.getElementById('lightBtn')
+          if (isDark) {
+            lightBtn.style.display = "block"
+            darkBtn.style.display = "none"
+            localStorage.setItem('preferredTheme', 'dark');
+          } else {
+            lightBtn.style.display = "none"
+            darkBtn.style.display = "block"
+            localStorage.removeItem('preferredTheme');
+          }
+          document.body.classList.toggle("darkmode");
+        }
+      </script>
+    </h1>
+  </div>
+
+  <div class="six columns ml-1">
+    <h1 class="mt-2">
+      Hi Folks.
+    </h1>
+  </div>
+
+  <div class="twelve columns">
+    <div class="row">
+      <div class="nine columns left">
+        <a href="/">Home</a>
+        
+          
+          <a href="/Works" class="ml">Works</a>
+          
+        
+          
+          <a href="/About" class="ml">About</a>
+          
+        
+        
+          
+            <a href="mailto:test@test.test" target="_blank" class="ml">Email</a>
+          
+        
+      </div>
+    </div>
+    <hr style="margin-bottom: 2.6rem">
+  </div>
+</div>
+
+        <div class="trans">
+            <h2>【BIT AI大作业】五子棋博弈 (三）进化网络</h2>
+
+  <h2 id="实验要求"><a href="#实验要求" class="headerlink" title="实验要求"></a><a href="">实验要求</a></h2><p>采用人工智能方法解决五子棋博弈问题，要求如下：</p>
+<ul>
+<li>能够用拍照方式识别五子棋下棋过程中当前落子的位置，识别程序中应使用到监督学习算法。</li>
+<li>采用一种博弈搜索算法，实现五子棋博弈程序，其中对棋局状态的判断采用人为设定函数方式。</li>
+<li><strong>将上述博弈搜索算法中判断棋局状态的函数改为一种人工神经网络模型，并采用进化计算方法对该人工神经网络模型来进行学习，使得五子棋博弈程序的下棋水平不断提高。</strong></li>
+<li>采用强化学习算法对上述人工神经网络模型进行学习，使得五子棋博弈程序的下棋水平不断提高。 </li>
+</ul>
+<h4 id="实验思路"><a href="#实验思路" class="headerlink" title="实验思路"></a><a href="">实验思路</a></h4><p>首先，我自己搭建了一个ANN网络，该网络的输入维度是一个15*15的棋盘，输出维度为1，表示棋盘的得分。对于数据集，我将强化学习和博弈树对弈过程中博弈树极大极小搜索过程中的棋盘保存一万七千份做为训练样本，同时保存其人为设定函数返回的棋面分数并用tanh处理得到训练标签。</p>
+<p>然后，我用进化算法中的GA算法进行训练，取适应度为为ANN的输出值与标签的欧氏距离作为适应度进行进化训练。我用numpy手写神经网络，用矩阵相乘的方法实现神经网络的前向传播过程。将得到的结果计算种群适应度，再取前适应度较好的前一半作为父代生子。在生子过程中，先将矩阵转换为向量，再运用交叉互换和变异两种操作产生新的子代。最后合并生子的父代和他们的孩子作为下一轮进化的种群。</p>
+<p>具体实现流程如下图所示：</p>
+<p><img src="/Narumi-Maria.github.io/images/pasted-22.png" alt="upload successful"></p>
+<h4 id="实验过程"><a href="#实验过程" class="headerlink" title="实验过程"></a><a href="">实验过程</a></h4><p><a href="">1.搭建一个用矩阵相乘的方式实现ANN前向传播过程的类ANN</a></p>
+<p><a href="">1)求适应度的函数fitness(self, weights_mat, data_inputs, data_outputs)</a></p>
+<p>这里的weights_mat是一个种群数*网络层数的ndArray，第一维代表一个个种群，将weights_mat中的每一个个体的权值取出，放入predict_output函数中计算出对应的距离作为适应度，然后将种群中所有个体的适应度存入distances中，返回distances。</p>
+<p><a href="">2)将棋盘输入网络，由当前网络权重计算棋盘分数，并返回所有训练样本误差的欧氏距离之和的函数predict_outputs(self, weights_mat, data_inputs, data_outputs)</a></p>
+<p>遍历data_inputs中的每一张棋盘列表。这里的weights_mat是表示一个神经网络的权重向量。取出weights_mat的每一层，逐层调用numpy.matmul做矩阵乘法，得到的输出值即为网络对于棋局的估分。<br>接着，计算网络对于棋局的估分和data_outputs中当前棋盘列表的分数之差的平方作为距离。将每个训练样本的距离求和返回。</p>
+<p><a href="">2.搭建一个继承自类ANN，且具有遗传进化的训练功能的类GA</a></p>
+<p>  <a href="">1）初始化</a></p>
+<p>在_init_中设置种群大小self.sol_per_pop、产自个数self.num_parents _mating、进化代数self.num_generations、变异率self.mutation_percent。</p>
+<p>本实验中，我设置sol_per_pop=10, num_parents_mating=5, num_generations =20, mutation=10。</p>
+<p>  <a href="">2）训练过程的主函数train(self, data_inputs, data_outputs)</a></p>
+<ul>
+<li>调用creat_initial_population得到初始种群</li>
+<li>调用vector_to_mat函数将每个神经网络的权值向量转化为矩阵</li>
+<li>调用fitness函数计算每个神经网络的适应度（目标输出与网络输出的距离）</li>
+<li>选择种群目标输出于网络输出的距离小的一半个体作为下一代的父代，并调用vector_to_mat将网络矩阵转化为向量。</li>
+<li>将选中的父代调用crossover进行交叉互换得到子代。</li>
+<li>将子代调用mutation进行变异。</li>
+<li>混合选中的父代和这些父代产生的子代，作为下一次进化的种群。</li>
+<li>保存权重、画图、保存种群</li>
+</ul>
+<p><a href="">3）创建初始种群的函数creat_initial_population(self)</a></p>
+<p>由numpy手写一个四层神经网络并初始化其权重。网络的输入是一张棋盘列表，输出为网络对于棋盘列表的估分。其构造如下图所示：</p>
+<p><img src="/Narumi-Maria.github.io/images/pasted-23.png" alt="upload successful"></p>
+<p><a href="">4）矩阵转向量函数mat_to_vector(self, mat_pop_weights)和向量转矩阵函数vector_to_mat(self, vector_pop_weights, mat_pop_weights)</a></p>
+<p>将权重矩阵转为向量主要是为了方便进行交叉互换和变异，而将权重向量转为矩阵则是为了用矩阵相乘的方式实现神经网络的前向传播过程。转换过程非常简单，主要是应用numpy中的reshape函数。</p>
+<p><a href="">5）选择估分与实际差距最小的父代的函数select_mating_pool(self, pop, fitness, num_parents)</a></p>
+<p>fitness是当前种群中所有函数的适应度，num_parents是要选择的父代个数。这里就是逐个选择适应度最好的个体，直到选够num_parents个为止。</p>
+<p><a href="">6）交叉互换函数crossover(self, parents, offspring_size)</a></p>
+<p>offspring_size是表示（子代个数、子代基因长度）的元组。首先随机选取交叉互换点，然后选中要进行交叉互换的父母，这里采用加一个随机数对父母数取模的方式，可以保证每次都是不同对的父母生子，且不会有父母为同一人的情况。子代交叉点之前的基因复制父代，交叉点之后的基因复制母亲，总共循环这样的操作offspring_size[0]次。</p>
+<p><a href="">7）变异函数mutation(self, offspring_crossover, mutation_percent)</a></p>
+<p>offspring_crossover是已经进行过交叉互换的子代，他是由所有子代神经网络的权值向量构成的一个ndArray，其大小为子代个数*子代基因长度。</p>
+<p>首先在子代基因长度范围offspring_crossover[1]内通过random.sample来选择mutation_percent*offspring_crossover[1]个在子代基因长度内的不重复的随机整数，接着将这些基因位的每一个数值与用nump.random.uniform生成的一个（-0.1，1）之间的随机数求和，作为突变后的新基因。</p>
+<p><a href="">8）与玩家下棋的接口函数find_best_chess(self, map, turn=-1)</a></p>
+<p>首先用turn与棋盘相乘，使棋盘上的己方落子都用1表示，敌方落子都用-1表示，然后寻找每一个可落子的位置，得到下一时刻所有可能的落子后的棋盘。为减少时间，这里照例用了Has_neighbor限制搜索半径为1内有棋子的空位。然后将棋盘和对应的位置保存起来。加载保存好的网络权重，将棋盘列表输入到网络当中，取网络输出分数最大的棋盘对应的下一步进行落子。</p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a><a href="">代码</a></h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;</span><span class="string">&#x27;</span></span><br><span class="line"><span class="string">用进化算法优化神经网络</span></span><br><span class="line"><span class="string">没有收敛，只做学习用</span></span><br><span class="line"><span class="string">&#x27;</span><span class="string">&#x27;&#x27;</span></span><br><span class="line">import numpy as np</span><br><span class="line">import pickle</span><br><span class="line">import random</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">import copy</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># input=15*15 output=1</span></span><br><span class="line">class ANN():</span><br><span class="line">    def __init__(self, mapsize=15):</span><br><span class="line">        self.mapsize = mapsize</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 将棋盘输入网络，由当前网络权重计算棋盘分数，并返回所有训练样本误差的欧氏距离之和</span></span><br><span class="line">    def predict_outputs(self, weights_mat, data_inputs, data_outputs):</span><br><span class="line">        distances = 0</span><br><span class="line">        <span class="keyword">for</span> sample_idx <span class="keyword">in</span> range(data_inputs.shape[0]):  <span class="comment"># 每一张棋谱</span></span><br><span class="line">            r1 = data_inputs[sample_idx, :]</span><br><span class="line">            <span class="keyword">for</span> curr_weights <span class="keyword">in</span> weights_mat:  <span class="comment"># 权重的每一层</span></span><br><span class="line">                r1 = np.matmul(r1, curr_weights)</span><br><span class="line">                r1 = np.tanh(r1)  <span class="comment"># 由于棋盘分数有正有负，故用tanh作为激活函数</span></span><br><span class="line">            distance = np.linalg.norm(r1 - data_outputs[sample_idx])  <span class="comment"># 计算目标棋盘分数和网络输出分数的欧氏距离</span></span><br><span class="line">            distance = distance.flatten()[0]</span><br><span class="line">            distances += distance  <span class="comment"># 求当前权重生成的网络对所有训练数据的总误差</span></span><br><span class="line">        <span class="built_in">return</span> distances</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 求适应度</span></span><br><span class="line">    def fitness(self, weights_mat, data_inputs, data_outputs):</span><br><span class="line">        distances = np.zeros(shape=(weights_mat.shape[0]))</span><br><span class="line">        <span class="keyword">for</span> sol_idx <span class="keyword">in</span> range(weights_mat.shape[0]):</span><br><span class="line">            curr_sol_mat = weights_mat[sol_idx, :]</span><br><span class="line">            distances[sol_idx] = self.predict_outputs(curr_sol_mat, data_inputs, data_outputs)</span><br><span class="line">        <span class="built_in">return</span> distances</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class GA(ANN):</span><br><span class="line">    def __init__(self, sol_per_pop=10, num_parents_mating=5, num_generations=20, mutation=10):</span><br><span class="line">        super(GA, self).__init__()</span><br><span class="line">        self.sol_per_pop = sol_per_pop  <span class="comment"># 种群大小</span></span><br><span class="line">        self.num_parents_mating = num_parents_mating  <span class="comment"># 产子个数</span></span><br><span class="line">        self.num_generations = num_generations  <span class="comment"># 进化代数</span></span><br><span class="line">        self.mutation_percent = mutation  <span class="comment"># 变异率</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 创建初始种群，data_inputs = batchsize*225</span></span><br><span class="line">    def creat_initial_population(self):</span><br><span class="line">        initial_pop_weights = []  <span class="comment"># 初始化权重 每一维随机为-0.1~0.1之间的数字</span></span><br><span class="line">        <span class="keyword">for</span> curr_sol <span class="keyword">in</span> np.arange(0, self.sol_per_pop):</span><br><span class="line">            input_HL1_weights = np.random.uniform(low=-0.1, high=0.1, size=(self.mapsize * self.mapsize, 512))</span><br><span class="line">            HL1_HL2_weights = np.random.uniform(low=-0.1, high=0.1, size=(512, 256))</span><br><span class="line">            HL2_HL3_weights = np.random.uniform(low=-0.1, high=0.1, size=(256, 256))</span><br><span class="line">            HL3_output_weights = np.random.uniform(low=-0.1, high=0.1, size=(256, 1))</span><br><span class="line">            initial_pop_weights.append(</span><br><span class="line">                np.array([input_HL1_weights, HL1_HL2_weights, HL2_HL3_weights, HL3_output_weights]))</span><br><span class="line">        <span class="built_in">return</span> np.array(initial_pop_weights)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 矩阵转向量</span></span><br><span class="line">    def mat_to_vector(self, mat_pop_weights):</span><br><span class="line">        pop_weights_vector = []</span><br><span class="line">        <span class="keyword">for</span> sol_idx <span class="keyword">in</span> range(mat_pop_weights.shape[0]):</span><br><span class="line">            curr_vector = []</span><br><span class="line">            <span class="keyword">for</span> layer_idx <span class="keyword">in</span> range(mat_pop_weights.shape[1]):</span><br><span class="line">                vector_weights = np.reshape(mat_pop_weights[sol_idx, layer_idx],</span><br><span class="line">                                            newshape=(mat_pop_weights[sol_idx, layer_idx].size))  <span class="comment"># 把每一层的权重展开</span></span><br><span class="line">                curr_vector.extend(vector_weights)</span><br><span class="line">            pop_weights_vector.append(curr_vector)</span><br><span class="line">        <span class="built_in">return</span> np.array(pop_weights_vector)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 向量转矩阵</span></span><br><span class="line">    def vector_to_mat(self, vector_pop_weights, mat_pop_weights):</span><br><span class="line">        mat_weights = []</span><br><span class="line">        <span class="keyword">for</span> sol_idx <span class="keyword">in</span> range(mat_pop_weights.shape[0]):</span><br><span class="line">            start = 0</span><br><span class="line">            end = 0</span><br><span class="line">            <span class="keyword">for</span> layer_idx <span class="keyword">in</span> range(mat_pop_weights.shape[1]):</span><br><span class="line">                end = end + mat_pop_weights[sol_idx, layer_idx].size</span><br><span class="line">                curr_vector = vector_pop_weights[sol_idx, start:end]</span><br><span class="line">                mat_layer_weights = np.reshape(curr_vector, newshape=(mat_pop_weights[sol_idx, layer_idx].shape))</span><br><span class="line">                mat_weights.append(mat_layer_weights)</span><br><span class="line">                start = end</span><br><span class="line">        <span class="built_in">return</span> np.reshape(mat_weights, newshape=mat_pop_weights.shape)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 选择估分与实际差距最小的父代</span></span><br><span class="line">    def select_mating_pool(self, pop, fitness, num_parents):</span><br><span class="line">        parents = np.empty((num_parents, pop.shape[1]))</span><br><span class="line">        <span class="keyword">for</span> parent_num <span class="keyword">in</span> range(num_parents):</span><br><span class="line">            max_fitness_idx = np.where(fitness == np.min(fitness))  <span class="comment"># 选欧式距离最小的</span></span><br><span class="line">            max_fitness_idx = max_fitness_idx[0][0]</span><br><span class="line">            parents[parent_num, :] = pop[max_fitness_idx, :]</span><br><span class="line">            fitness[max_fitness_idx] = 99999999999</span><br><span class="line">        <span class="built_in">return</span> parents</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 交叉互换</span></span><br><span class="line">    def crossover(self, parents, offspring_size):</span><br><span class="line">        offspring = np.empty(offspring_size)</span><br><span class="line">        crossover_point = np.random.randint(offspring_size[1])  <span class="comment"># 随机选择交叉互换点</span></span><br><span class="line">        next = np.random.randint(parents.shape[0])  <span class="comment"># 达到随机选两个父代交配的效果</span></span><br><span class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> range(offspring_size[0]):</span><br><span class="line">            parent1_idx = k % parents.shape[0]</span><br><span class="line">            parent2_idx = (k + next) % parents.shape[0]  <span class="comment"># 因为next永远小于parents.shape[0]，所以不可能选中两个相同的父代</span></span><br><span class="line">            offspring[k, 0:crossover_point] = parents[parent1_idx, 0:crossover_point]</span><br><span class="line">            offspring[k, crossover_point:] = parents[parent2_idx, crossover_point:]</span><br><span class="line">        <span class="built_in">return</span> offspring</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 变异</span></span><br><span class="line">    def mutation(self, offspring_crossover, mutation_percent):</span><br><span class="line">        num_mutations = np.uint32((mutation_percent * offspring_crossover.shape[1]) / 100)</span><br><span class="line">        <span class="keyword">for</span> idx <span class="keyword">in</span> range(offspring_crossover.shape[0]):  <span class="comment"># 对每一个子代</span></span><br><span class="line">            mutation_indices = random.sample(range(0, offspring_crossover.shape[1]), num_mutations)  <span class="comment"># 选中要突变的基因位</span></span><br><span class="line">            <span class="keyword">for</span> indx <span class="keyword">in</span> range(len(mutation_indices)):  <span class="comment"># 对每一个子代选中的要变异的基因</span></span><br><span class="line">                random_value = np.random.uniform(-1.0, 1.0, 1)  <span class="comment"># 随机加一个数值</span></span><br><span class="line">                offspring_crossover[idx, mutation_indices[indx]] = offspring_crossover[</span><br><span class="line">                                                                       idx, mutation_indices[indx]] + random_value</span><br><span class="line">        <span class="built_in">return</span> offspring_crossover</span><br><span class="line"></span><br><span class="line">    def train(self, data_inputs, data_outputs, CONTINUE=False):</span><br><span class="line">        <span class="keyword">if</span> CONTINUE:  <span class="comment"># 继续上次训练</span></span><br><span class="line">            pop_weights_mat = np.load(<span class="string">&quot;weight/task3_GApopulation.npy&quot;</span>)</span><br><span class="line">            f = open(<span class="string">&quot;weight/task3_Distance.lis&quot;</span>, <span class="string">&quot;rb&quot;</span>)</span><br><span class="line">            Distance = pickle.load(f)  <span class="comment"># 用于画图</span></span><br><span class="line">            f.close()</span><br><span class="line">        <span class="keyword">else</span>:  <span class="comment"># 重新开始的训练</span></span><br><span class="line">            pop_weights_mat = self.creat_initial_population()</span><br><span class="line">            Distance = []  <span class="comment"># 用于画图</span></span><br><span class="line"></span><br><span class="line">        pop_weights_vector = self.mat_to_vector(pop_weights_mat)</span><br><span class="line">        <span class="keyword">for</span> generation <span class="keyword">in</span> range(self.num_generations):</span><br><span class="line">            <span class="comment"># 向量转矩阵</span></span><br><span class="line">            pop_weights_mat = self.vector_to_mat(pop_weights_vector, pop_weights_mat)</span><br><span class="line">            <span class="comment"># 计算适应度</span></span><br><span class="line">            fitness = self.fitness(pop_weights_mat, data_inputs, data_outputs)</span><br><span class="line">            best_fitness = np.where(fitness == np.min(fitness))[0][0]</span><br><span class="line">            <span class="built_in">print</span>(fitness[best_fitness])</span><br><span class="line">            Distance.append(fitness[best_fitness])  <span class="comment"># 存储作图点</span></span><br><span class="line">            <span class="keyword">if</span> generation == self.num_generations - 1:</span><br><span class="line">                np.save(<span class="string">&quot;weight/task3_bestGAweight.npy&quot;</span>, pop_weights_mat[best_fitness, :])  <span class="comment"># 存储最佳网络权重</span></span><br><span class="line">            <span class="comment"># 根据适应度选择要遗传下去的父代</span></span><br><span class="line">            parents = self.select_mating_pool(pop_weights_vector, fitness.copy(), self.num_parents_mating)</span><br><span class="line">            <span class="comment"># 将适者交叉互换</span></span><br><span class="line">            offspring_crossover = self.crossover(parents, offspring_size=(</span><br><span class="line">                pop_weights_vector.shape[0] - parents.shape[0], pop_weights_vector.shape[1]))</span><br><span class="line">            <span class="comment"># 将交叉互换之后的适者进行变异，得到子代</span></span><br><span class="line">            offspring_mutation = self.mutation(offspring_crossover, mutation_percent=self.mutation_percent)</span><br><span class="line">            <span class="comment"># 合并父代和子代</span></span><br><span class="line">            pop_weights_vector[0:parents.shape[0], :] = parents</span><br><span class="line">            pop_weights_vector[parents.shape[0]:, :] = offspring_mutation</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 保存作图点</span></span><br><span class="line">        f = open(<span class="string">&quot;weight/task3_Distance.lis&quot;</span>, <span class="string">&quot;wb&quot;</span>)</span><br><span class="line">        pickle.dump(Distance, f)</span><br><span class="line">        f.close()</span><br><span class="line">        <span class="comment"># 画出分数拟合曲线</span></span><br><span class="line">        Distance = np.squeeze(Distance)</span><br><span class="line">        plt.plot(Distance)</span><br><span class="line">        plt.ylabel(<span class="string">&#x27;Loss&#x27;</span>)</span><br><span class="line">        plt.xlabel(<span class="string">&#x27;num_generations (per 1)&#x27;</span>)</span><br><span class="line">        plt.title(<span class="string">&quot;Distance between network output and expected output&quot;</span>)</span><br><span class="line">        plt.show()</span><br><span class="line">        <span class="comment"># 保存进化后的种群</span></span><br><span class="line">        pop_weights_mat = self.vector_to_mat(pop_weights_vector, pop_weights_mat)</span><br><span class="line">        np.save(<span class="string">&quot;weight/task3_GApopulation.npy&quot;</span>, pop_weights_mat)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 只探索半径为1内有棋子的空位</span></span><br><span class="line">    def Has_neighbor(self, map, x, y, radius=1):</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(x - radius, x + radius + 1):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(y - radius, y + radius + 1):</span><br><span class="line">                <span class="keyword">if</span> 0 &lt;= i &lt; 15 and 0 &lt;= j &lt; 15:</span><br><span class="line">                    <span class="keyword">if</span> map[i][j] != 0:</span><br><span class="line">                        <span class="built_in">return</span> True</span><br><span class="line">            <span class="built_in">return</span> False</span><br><span class="line"></span><br><span class="line">    def find_best_chess(self, map, turn=-1):</span><br><span class="line">        board = copy.deepcopy(map)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(15):  <span class="comment"># 翻转棋盘，永远使得1为己方-1为对方</span></span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(15):</span><br><span class="line">                board[i][j] = map[i][j] * turn</span><br><span class="line">        net = np.load(<span class="string">&quot;weight/task3_bestGAweight.npy&quot;</span>)  <span class="comment"># 加载训练好的权重</span></span><br><span class="line">        <span class="comment"># 遍历每一个可落子位置，找出最大位置下棋</span></span><br><span class="line">        chesspos = []  <span class="comment"># 下一步落子后的所有可能棋盘</span></span><br><span class="line">        position = []  <span class="comment"># 下一步落子的所有可能位置</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(15):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(15):</span><br><span class="line">                <span class="keyword">if</span> board[i][j] == 0 and self.Has_neighbor(board, i, j):</span><br><span class="line">                    board[i][j] = 1</span><br><span class="line">                    chesspos.append(copy.deepcopy(board))</span><br><span class="line">                    position.append((i, j))</span><br><span class="line">                    board[i][j] = 0</span><br><span class="line">        r1 = np.array(chesspos).reshape(-1, 225)</span><br><span class="line">        <span class="keyword">for</span> curr_weights <span class="keyword">in</span> net:  <span class="comment"># 权重的每一层</span></span><br><span class="line">            r1 = np.matmul(r1, curr_weights)</span><br><span class="line">            r1 = np.tanh(r1)</span><br><span class="line">        best_index = np.where(r1 == np.max(r1))[0][0]</span><br><span class="line">        <span class="built_in">return</span> position[best_index]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    f = open(<span class="string">&quot;Data/task3_map_right.pkl&quot;</span>, <span class="string">&quot;rb&quot;</span>)</span><br><span class="line">    map = pickle.load(f)  <span class="comment"># 加载训练数据 棋盘列表</span></span><br><span class="line">    f.close()</span><br><span class="line">    f = open(<span class="string">&quot;Data/task3_score_right.pkl&quot;</span>, <span class="string">&quot;rb&quot;</span>)</span><br><span class="line">    score = pickle.load(f)  <span class="comment"># 加载训练数据标签 棋盘分数</span></span><br><span class="line">    f.close()</span><br><span class="line">    map = np.array(map)</span><br><span class="line">    score = np.array(score)</span><br><span class="line">    map = map.reshape(-1, 225)</span><br><span class="line">    score = score.reshape(-1)</span><br><span class="line">    score = np.tanh(score)</span><br><span class="line">    ga = GA()</span><br><span class="line">    ga.train(map, score, True)</span><br></pre></td></tr></table></figure>
+<h4 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a><a href="">实验结果</a></h4><p>用进化算法优化神经网络的效果远差于传统的SGD，作业三主要做学习进化算法的写法用。我用GA进化的神经网络也并未收敛，但是可以从适应度看出，它距离网络目标输出的距离是在不断减小的。说明已经完成进化算法的基本思想。</p>
+<p><img src="/Narumi-Maria.github.io/images/pasted-24.png" alt="upload successful"></p>
+<p>运行我的程序可以看出，GA训练出来的AI基本上不会下棋。</p>
+
+  <p> — Dec 26, 2020</p>
+  
+
+
+          <div class="row mt-2">
+  
+    <div class="eight columns">
+      <p id="madewith">Made with ❤ and
+        <a class="footer-link icon" href="https://hexo.io" target="_blank" style="text-decoration: none;" rel="noreferrer" aria-label="Hexo.io">
+        <svg class="hexo svg-hov" width="14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Hexo.js</title><path d="M12 .007L1.57 6.056V18.05L12 23.995l10.43-6.049V5.952L12 .007zm4.798 17.105l-.939.521-.939-.521V12.94H9.08v4.172l-.94.521-.938-.521V6.89l.939-.521.939.521v4.172h5.84V6.89l.94-.521.938.521v10.222z"/></svg>
+        </a>
+        
+        at <a href="https://en.wikipedia.org/wiki/Earth" target="_blank" rel="noreferrer">Earth</a>.</p>
+        
+    </div>
+
+    <!-- Sepcial thanks to https://simpleicons.org/ for the icons -->
+    <div class="four columns mb-3 posisi" >
+      
+      <a class="ml-0 footer-link icon" href="https://github.com/adisaktijrs" target="_blank" style="text-decoration: none" rel="noreferrer" aria-label="GitHub">
+        <svg class="github svg-hov" width="18" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+      </a>
+      
+
+      
+      <a class="ml-0 footer-link icon" href="https://linkedin.com/in/adisaktijrs" target="_blank" style="text-decoration: none" rel="noreferrer" aria-label="LinkedIn">
+        <svg class="linkedin svg-hov" width="18" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>LinkedIn</title><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      
+
+      
+      <a class="ml-0 footer-link icon" href="https://twitter.com/adisaktijrs" target="_blank" style="text-decoration: none" rel="noreferrer" aria-label="Twitter">
+        <svg class="twitter svg-hov" width="18" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Twitter</title><path d="M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124C7.691 8.094 4.066 6.13 1.64 3.161c-.427.722-.666 1.561-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63.961-.689 1.8-1.56 2.46-2.548l-.047-.02z"/></svg>
+      </a>
+      
+
+      
+      <a class="ml-0 footer-link icon" href="https://instagram.com/adisaktijrs" target="_blank" style="text-decoration: none" rel="noreferrer" aria-label="Instagram">
+        <svg class="instagram svg-hov" width="18" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Instagram</title><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z"/></svg>
+      </a>
+      
+
+      
+      <a class="ml-0 footer-link icon" href="https://stackoverflow.com/story/tobiasreithmeier" target="_blank" style="text-decoration: none" rel="noreferrer" aria-label="StackOverflow">
+        <svg class="stackoverflow svh-hov" width="18" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Stack Overflow</title><path d="M15.725 0l-1.72 1.277 6.39 8.588 1.716-1.277L15.725 0zm-3.94 3.418l-1.369 1.644 8.225 6.85 1.369-1.644-8.225-6.85zm-3.15 4.465l-.905 1.94 9.702 4.517.904-1.94-9.701-4.517zm-1.85 4.86l-.44 2.093 10.473 2.201.44-2.092-10.473-2.203zM1.89 15.47V24h19.19v-8.53h-2.133v6.397H4.021v-6.396H1.89zm4.265 2.133v2.13h10.66v-2.13H6.154Z"/></svg>
+      </a>
+      
+
+    </div>
+  
+</div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+  <script src="/js/nanobar.min.js"></script>
+  <script>
+    var options = {
+      classname: 'nanobar',
+      id: 'myNanobar'
+    };
+    var nanobar = new Nanobar(options);
+    nanobar.go(30);
+    nanobar.go(76);
+    nanobar.go(100);
+  </script>
+
+</body>
+
+</html>

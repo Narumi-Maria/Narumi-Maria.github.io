@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <!-- Minima -->
+  <!-- Hexo theme created by @adisaktijrs -->
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+
+  
+  <title>【BIT AI大作业】五子棋博弈 (四）强化学习</title>
+  
+  <link rel="canonical" href="https://github.com/Narumi-Maria/Narumi-Maria.github.io/2020/12/26/BIT-AI%E5%A4%A7%E4%BD%9C%E4%B8%9A%E3%80%91%E4%BA%94%E5%AD%90%E6%A3%8B%E5%8D%9A%E5%BC%88-%E5%9B%9B%EF%BC%89%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">
+  
+  <meta name="description" content="实验要求采用人工智能方法解决五子棋博弈问题，要求如下：  能够用拍照方式识别五子棋下棋过程中当前落子的位置，识别程序中应使用到监督学习算法。 采用一种博弈搜索算法，实现五子棋博弈程序，其中对棋局状态的判断采用人为设定函数方式。 将上述博弈搜索算法中判断棋局状态的函数改为一种人工神经网络模型，并采用进">
+  
+  
+  <meta name="author" content="John Doe">
+  
+  <meta property="og:image" content="https://github.com/Narumi-Maria/Narumi-Maria.github.ioundefined">
+  
+  <meta property="og:site_name" content="Hexo" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="【BIT AI大作业】五子棋博弈 (四）强化学习" />
+  
+  <meta property="og:description" content="实验要求采用人工智能方法解决五子棋博弈问题，要求如下：  能够用拍照方式识别五子棋下棋过程中当前落子的位置，识别程序中应使用到监督学习算法。 采用一种博弈搜索算法，实现五子棋博弈程序，其中对棋局状态的判断采用人为设定函数方式。 将上述博弈搜索算法中判断棋局状态的函数改为一种人工神经网络模型，并采用进">
+  
+  <meta property="og:url" content="https://github.com/Narumi-Maria/Narumi-Maria.github.io/2020/12/26/BIT-AI%E5%A4%A7%E4%BD%9C%E4%B8%9A%E3%80%91%E4%BA%94%E5%AD%90%E6%A3%8B%E5%8D%9A%E5%BC%88-%E5%9B%9B%EF%BC%89%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" />
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="【BIT AI大作业】五子棋博弈 (四）强化学习">
+  
+  <meta name="twitter:description" content="实验要求采用人工智能方法解决五子棋博弈问题，要求如下：  能够用拍照方式识别五子棋下棋过程中当前落子的位置，识别程序中应使用到监督学习算法。 采用一种博弈搜索算法，实现五子棋博弈程序，其中对棋局状态的判断采用人为设定函数方式。 将上述博弈搜索算法中判断棋局状态的函数改为一种人工神经网络模型，并采用进">
+  
+  
+  <meta name="twitter:image" content="https://github.com/Narumi-Maria/Narumi-Maria.github.ioundefined">
+  
+  <meta name="twitter:url" content="https://github.com/Narumi-Maria/Narumi-Maria.github.io/2020/12/26/BIT-AI%E5%A4%A7%E4%BD%9C%E4%B8%9A%E3%80%91%E4%BA%94%E5%AD%90%E6%A3%8B%E5%8D%9A%E5%BC%88-%E5%9B%9B%EF%BC%89%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" />
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Preload fonts
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="preload" href="../fonts/dm-serif-display-v4-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../fonts/inter-v2-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  
+<link rel="stylesheet" href="/css/normalize.css">
+
+  
+<link rel="stylesheet" href="/css/skeleton.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+<link rel="stylesheet" href="/css/prism-dark.css">
+
+  
+<link rel="stylesheet" href="/css/prism-line-numbers.css">
+
+  <!-- User css -->
+  
+  
+<link rel="stylesheet" href="/css/user.css">
+
+  
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+
+  <!-- Custom Theme Color Style
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <style>
+  a:not(.icon) {
+    text-decoration-color: #0FA0CE;
+    background-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 50%,
+      #0FA0CE 50%
+    );
+  }
+  blockquote {
+    border-left: 8px solid #0FA0CE;
+  }
+  .nanobar .bar {
+    background: #0FA0CE;
+  }
+  .button.button-primary:hover,
+  button.button-primary:hover,
+  input[type="submit"].button-primary:hover,
+  input[type="reset"].button-primary:hover,
+  input[type="button"].button-primary:hover,
+  .button.button-primary:focus,
+  button.button-primary:focus,
+  input[type="submit"].button-primary:focus,
+  input[type="reset"].button-primary:focus,
+  input[type="button"].button-primary:focus {
+    background-color: #0FA0CE;
+    border-color: #0FA0CE;
+  }
+  input[type="email"]:focus,
+  input[type="number"]:focus,
+  input[type="search"]:focus,
+  input[type="text"]:focus,
+  input[type="tel"]:focus,
+  input[type="url"]:focus,
+  input[type="password"]:focus,
+  textarea:focus,
+  select:focus {
+    border: 1px solid #0FA0CE;
+  }
+</style>
+
+  <!-- Google Analytics (With Privacy Settings On)
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div>
+
+        <div class="row">
+  <div class="two columns" style="max-width: 50px">
+    <h1 class="mt-2 mode">
+      <div onclick=setDarkMode(true) id="darkBtn">🌑</div>
+      <div onclick=setDarkMode(false) id="lightBtn" class=hidden>☀️</div>
+      <script >
+        if (localStorage.getItem('preferredTheme') == 'dark') {
+          setDarkMode(true)
+        }
+        function setDarkMode(isDark) {
+          var darkBtn = document.getElementById('darkBtn')
+          var lightBtn = document.getElementById('lightBtn')
+          if (isDark) {
+            lightBtn.style.display = "block"
+            darkBtn.style.display = "none"
+            localStorage.setItem('preferredTheme', 'dark');
+          } else {
+            lightBtn.style.display = "none"
+            darkBtn.style.display = "block"
+            localStorage.removeItem('preferredTheme');
+          }
+          document.body.classList.toggle("darkmode");
+        }
+      </script>
+    </h1>
+  </div>
+
+  <div class="six columns ml-1">
+    <h1 class="mt-2">
+      Hi Folks.
+    </h1>
+  </div>
+
+  <div class="twelve columns">
+    <div class="row">
+      <div class="nine columns left">
+        <a href="/">Home</a>
+        
+          
+          <a href="/Works" class="ml">Works</a>
+          
+        
+          
+          <a href="/About" class="ml">About</a>
+          
+        
+        
+          
+            <a href="mailto:test@test.test" target="_blank" class="ml">Email</a>
+          
+        
+      </div>
+    </div>
+    <hr style="margin-bottom: 2.6rem">
+  </div>
+</div>
+
+        <div class="trans">
+            <h2>【BIT AI大作业】五子棋博弈 (四）强化学习</h2>
+
+  <h2 id="实验要求"><a href="#实验要求" class="headerlink" title="实验要求"></a><a href="">实验要求</a></h2><p>采用人工智能方法解决五子棋博弈问题，要求如下：</p>
+<ul>
+<li>能够用拍照方式识别五子棋下棋过程中当前落子的位置，识别程序中应使用到监督学习算法。</li>
+<li>采用一种博弈搜索算法，实现五子棋博弈程序，其中对棋局状态的判断采用人为设定函数方式。</li>
+<li>将上述博弈搜索算法中判断棋局状态的函数改为一种人工神经网络模型，并采用进化计算方法对该人工神经网络模型来进行学习，使得五子棋博弈程序的下棋水平不断提高。</li>
+<li><strong>采用强化学习算法对上述人工神经网络模型进行学习，使得五子棋博弈程序的下棋水平不断提高。</strong> </li>
+</ul>
+<h4 id="实验思路"><a href="#实验思路" class="headerlink" title="实验思路"></a><a href="">实验思路</a></h4><p>首先，我自己搭建了一个CNN网络，该网络的输入维度是一个15*15的棋盘，输出维度为1，表示棋盘的得分。轮到由强化学习的AI下棋时，将当前棋盘输入，然后尝试每一个可落子的位置，将加入尝试落子的棋盘输入到网络之中，输出得分，则得分最高的位置就是下一步应该落子的位置。<br>注意，在这里，为了探索更多走法，防止神经网络陷入局部最优，我采用epsilon贪心策略，即这个强化学习的AI有epsilon的概率是按网络输出最大值的位置去走，有1-epsilon的概率是随机地走一步。同时为了缩小搜索范围，我在这里和实验二一样只限定其搜索距离棋盘上已落棋子半径为1的空位。</p>
+<p>然后我采用强化学习中的DeepQ-Learning算法来训练这个CNN网络。我构建了一个类DQN，每一局结束后进行一次学习。由我对实验二的介绍可知，每轮棋局会维护一个moveStack，按顺序保存着每一次的落子信息。我将moveStack中的信息还原为每一轮下棋后的棋盘列表，作为DQN训练的场景state，然后根据最后一枚棋子的颜色判断棋局的输赢，作为最终的reward（输=-1，赢=+1）。</p>
+<p>在每一轮生成训练数据时，我会将黑棋所有落子后的棋盘拼在一起，将白棋所有落子后的场景拼在一起，再将两者拼在一起作为所有的训练场景。由于没有找到合适的反馈函数，在设置reward时，我只是简单地设置黑棋和白棋的最后一次落子的场景的reward为1或-1，其余的场景reward为0。这样生成训练数据的目的是使博弈双方的下棋过程都能成为学习信息，同时，在白棋的场景下，我会对棋盘的值取负，使每一个场景都用1表示己方，-1表示敌方。</p>
+<p>在DQN中，我维护两个结构相同的CNN网络，一个作为Q估计，一个作为Q现实。在实际落子时，采用Q估计得到最佳落的子位置，然后每20局用Q估计更新一次Q现实的值。训练的目标为：Q估计对当前场景的输出评分=Q现实对下一场景的输出评分*gamma+当前场景的reward。损失函数和优化器和实验一一样采用MSE和Adam。</p>
+<h4 id="实验过程"><a href="#实验过程" class="headerlink" title="实验过程"></a><a href="">实验过程</a></h4><p><a href="">1.搭建一个由三个卷积层、两个池化层、两个全连接层的卷积神经网络。</a></p>
+<p>网络输入为batchaize<em>1</em>15*15的棋盘列表，这个棋盘列表的1表示己方棋子，-1表示敌方棋子。输出为一个值，表示棋盘分数。</p>
+<p>在这里，我对所有的卷积层和线性层都加了偏置，且将它们初始化为均值为0，方差为0.1的随机数。其结构如下图所示：</p>
+<p><img src="/Narumi-Maria.github.io/images/pasted-25.png" alt="upload successful"></p>
+<p><a href="">2.搭建一个类DQN，用于训练棋盘估值的卷积神经网络。</a></p>
+<p><a href="">1）首先简要介绍一下Q-Learning和DeepQ-Learning。</a><br>在博弈过程中，强化学习与监督学习本质的区别是，监督学习是给定一个场景和最佳的动作对，训练目标是使得模型的输出和期望的输出尽可能地接近。放在这里来看，就是像实验三那样，给定一个输入棋盘和棋盘的正确分数，使网络的输出尽可能和分数接近。而强化学习是给定场景（state），让模型自己选择动作（action），再与环境交互得到新的场景和当前动作的奖励（reward），一直交互到游戏结束，得到一个由每个场景的reward进行加和的总奖励，优化的目标就是使这一总奖励最大。放在这里来看，就是让模型不断相互博弈，等待一局结束后，再根据它的输赢反过去调节网络的参数。走赢的棋盘分数大，走输的棋盘分数小。</p>
+<p>Q-Learning是强化学习中的一种value-base的算法，Q即为Q(s,a)，表示在场景为s的状态下，采取动作a能够获得动作收益的期望。算法的主要思想是将state和action构成一张Q_table来存储Q值，然后根据Q值选择能获得最大收益的动作。假设模型现在所处的场景为s1，可以选择动作a1、a2。那么我们就比较Q(s1,a1)的值和Q(s1,a2)的值，选择大的那个动作走下去，得到下一个场景，再重复这样的选择过程。</p>
+<p><img src="/Narumi-Maria.github.io/images/pasted-26.png" alt="upload successful"></p>
+<p>Q_table的更新采用时间差分法。假设模型现在所处的场景为s1，可以选择动作a1、a2。选择a1，模型将进入到状态s2，选择a2，模型将进入到状态s3。那么我们可以通过查表得方式，得到能使Q(s2,a)最大的a，记为amax，则取Q(s2,amax)的值乘一个衰减系数γ，再加上在s1场景下采取动作a1得到的reward，记为r1，来更新Q(s1,a1)的值。对于Q(s1,a2)，其更新原理相同。这种更新方式用公式表示如下：</p>
+<p><img src="/Narumi-Maria.github.io/images/pasted-27.png" alt="upload successful"><br>加入学习率也可表示为：</p>
+<p><img src="/Narumi-Maria.github.io/images/pasted-28.png" alt="upload successful"></p>
+<p>对于状态很多的复杂问题，用传统Q-Learning的表格存储方式显然是行不通的。这时我们可以借助神经网络完成给定状态，搜索出总回报最大动作的工作，将更新表格转化为更新神经网络的权值。这种算法成为DeepQ-Learning，具体有两种实现形式：将状态和动作当成神经网络的输入, 然后经过神经网络分析后得到动作的 Q 值，和，输入状态值，输出所有的动作值，然后按照 Q learning 的原则，直接选择拥有最大值的动作当做下一步要做的动作。在本次实验中，我的网络实现的是对棋盘打分的一个功能，所以我选择的是第一种DQN的构造形式，输入一个棋盘列表，输出则相当于该棋盘对应的最后一次落子所对应的Q值。</p>
+<p>DQN的更新需要维护两个网络，一个称为Q估计（eval_net），一个称为Q现实（target_net）。Q估计用来和环境对弈，选取最大Q值的动作。Q现实用来保存历史的Q值，作为下一场景的真实Q值。训练的目的则是神经网络输出逼近真实的Q值。在本次实验中优化目标课表示为如下公式：</p>
+<p><img src="/Narumi-Maria.github.io/images/pasted-29.png" alt="upload successful"></p>
+<p>之所以要维护这两个网络，是因为神经网络每次训练都会对输出值产生影响，如果这个真实Q值一直变化的话，那么神经网络是没办法收敛的。所以需要搭建另一个参数一模一样的神经网络来生成真实Q值。这个生成真实Q值的网络不需要训练，只需要迭代一定次数以后，复制一份预测网络的参数即可。就好比一个笨老师教一个学生，学生学会了以后当了老师，教新的学生，然后青出于蓝而胜于蓝，这个学生越来越强。本实验中具体的训练流程如下：</p>
+<p><img src="/Narumi-Maria.github.io/images/pasted-30.png" alt="upload successful"></p>
+<p><a href="">2）采用epsilon贪心策略下棋的函数find_best_pos(self, map, turn=1)</a></p>
+<p>由于CNN无法判断当前下棋的是黑棋还是白棋，所以要先将输入的棋盘做一个处理，即用turn的值乘map得到next_map，使得在next_map中，无论对于黑棋还是白棋，都是1表示己方棋子，-1表示敌方棋子。</p>
+<p>对于棋盘上的每一个位置，如果该位置为空且其半径为1以内有已经下在棋盘上的棋子，则将其加入到positions列表中，表示可走的位置。然后将next_map这个处理过的棋盘列表复制一份，将该位置置1，加入到next_states列表中去。</p>
+<p>如果当前棋盘上没有棋子（开局第一次落子），那么下在中心位置。否则，按照epsilon贪心策略，如果生成的随机数小于epsilon（这里取epsilon=0.95），将next_states列表转为tensor，输入到Q估计网络，得到下一步所有可能棋盘的分数列表scores，取出scores中最大值的索引max_index，则positions[max_index]就是强化学习的AI要走的下一个位置。如果生成的随机数小于epsilon，则随机选取positions中的一个坐标返回，表示随机走一步。</p>
+<p><a href="">3）训练前生成当前状态和下一状态列表以及回报的函数generate_states_and_rewards(self, stack)</a></p>
+<p>由每局结束后的落子顺序列表stack可以得到每一次落子后的棋盘，假设该棋盘列表为[S0、S1、……、S2n]，假设这局黑棋赢，则从stack还原出黑棋落子后的场景应为[S0、S2、S4、……、S2n]，白棋落子后的场景应为[S1、S3、S5、……、S2n-1]。</p>
+<p>将这两个列表拼在一起得到now_states[S0、S2、S4、……、S2n、S1、S3、S5、……、S2n-1]。然后将黑棋落子后的场景和白棋落子后的场景各左移一位，并将黑棋和白棋对应的最终状态各复制一份，然后拼在一起，得到next_state列表[S2、S4、……、S2n、S2n、S3、S5、……、S2n-1、S2n-1]。</p>
+<p>设置黑棋的最后一个场景对应的reward为1，白棋最后一个场景对应的reward为-1，其余场景对应的reward为0，即可得到与now_states一一对应的reward列表[0、0、0、……、1、0、0、0、……、-1]。</p>
+<p>返回now_states作为训练时Q估计的输入、next_state作为训练时Q现实的输入、以及reward。</p>
+<p><a href="">4）训练函数learn(self, s1, s2, reward, len1)</a></p>
+<p>DQN这个类中维护了一个self.learn_step_counter，用于计数训练轮数。我是每一轮训练一次，每20轮保存一次eval_net的参数并将eval_net的参数复制给target_net一次。</p>
+<p>将当前场景列表s1传入Q估计网络eval_net中得到q_eval，将下一场景列表s2传入Q估计网络target_net中得到q_next。注意，由于target_net是不更新参数的，所以要用detach把它从pytorch的计算图上摘下来。由于s2中黑棋和白棋最后一个场景的下一个场景其实只是把最后一个场景单纯地复制了一下，所以其实在q_next中，这两个位置是无效的。更新公式理论上应给是q_target = rewards + GAMMA * q_next，而 rewards只有两个有效值，其余全为0，所以我直接使用q_target =  GAMMA * q_next，然后对q_target中白棋和黑棋的最后一幅场景的期望输出单独处理，强制将q_target对应黑棋和白棋最后一幅场景的位置置为1或-1，即得到处理好的q_target。</p>
+<p>下面开始训练更新，损失函数采用MSE，优化目标为q_eval和q_target尽可能地接近，损失函数采用MSE，用pytorch的自动求导功能，优化器采用Adam更新。</p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a><a href="">代码</a></h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;</span><span class="string">&#x27;强化学习&#x27;</span><span class="string">&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line">import torch</span><br><span class="line">import torch.nn as nn</span><br><span class="line">import torch.nn.functional as F</span><br><span class="line">import numpy as np</span><br><span class="line"></span><br><span class="line">MAPSIZE = 15</span><br><span class="line"></span><br><span class="line">LR = 0.001  <span class="comment"># learning rate</span></span><br><span class="line">EPSILON = 0.95  <span class="comment"># 最优选择动作百分比</span></span><br><span class="line">GAMMA = 0.9  <span class="comment"># 奖励递减参数</span></span><br><span class="line">TARGET_REPLACE_ITER = 20  <span class="comment"># Q 现实网络的更新频率</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Net(nn.Module):</span><br><span class="line">    def __init__(self):</span><br><span class="line">        super(Net, self).__init__()</span><br><span class="line">        self.conv1 = torch.nn.Conv2d(1, 64, kernel_size=3, stride=1, padding=1, padding_mode=<span class="string">&#x27;zeros&#x27;</span>, bias=True)</span><br><span class="line">        self.conv2 = torch.nn.Conv2d(64, 128, kernel_size=3, stride=1, padding=1, padding_mode=<span class="string">&#x27;zeros&#x27;</span>, bias=True)</span><br><span class="line">        self.conv3 = torch.nn.Conv2d(128, 256, kernel_size=3, stride=1, padding=1, padding_mode=<span class="string">&#x27;zeros&#x27;</span>, bias=True)</span><br><span class="line">        self.maxpooling1 = torch.nn.MaxPool2d(2, padding=1)</span><br><span class="line">        self.maxpooling2 = torch.nn.MaxPool2d(2, padding=0)</span><br><span class="line">        self.fc1 = torch.nn.Linear(256, 128, bias=True)</span><br><span class="line">        self.fc2 = torch.nn.Linear(128, 1, bias=True)</span><br><span class="line">        <span class="comment"># 参数初始化</span></span><br><span class="line">        self.conv1.weight.data.normal_(0, 0.1)</span><br><span class="line">        self.conv2.weight.data.normal_(0, 0.1)</span><br><span class="line">        self.conv3.weight.data.normal_(0, 0.1)</span><br><span class="line">        self.fc1.weight.data.normal_(0, 0.1)</span><br><span class="line">        self.fc2.weight.data.normal_(0, 0.1)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 输入x的型状：（batch_size=该局所有棋谱数，in_channels=1，width=15，height=15）</span></span><br><span class="line">    def forward(self, x):</span><br><span class="line">        x = F.relu(self.conv1(x))</span><br><span class="line">        x = self.maxpooling1(x)</span><br><span class="line">        x = F.relu(self.conv2(x))</span><br><span class="line">        x = self.maxpooling2(x)</span><br><span class="line">        x = F.relu(self.conv3(x))</span><br><span class="line">        x = torch.mean(x, [2, 3])</span><br><span class="line">        x = F.relu(self.fc1(x))</span><br><span class="line">        x = self.fc2(x)</span><br><span class="line">        <span class="built_in">return</span> x</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class DQN(object):</span><br><span class="line">    def __init__(self):</span><br><span class="line">        self.eval_net = Net()  <span class="comment"># Q估计</span></span><br><span class="line">        self.target_net = Net()  <span class="comment"># Q现实</span></span><br><span class="line">        self.learn_step_counter = 0  <span class="comment"># 用于target更新计时</span></span><br><span class="line">        self.optimizer = torch.optim.Adam(self.eval_net.parameters(), lr=LR)  <span class="comment"># torch的优化器</span></span><br><span class="line">        self.loss_func = nn.MSELoss()  <span class="comment"># 损失函数计算方法</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 训练</span></span><br><span class="line">    def learn(self, s1, s2, reward, len1):</span><br><span class="line">        <span class="comment"># target_net参数更新，将eval_net中的参数复制到target_net中去</span></span><br><span class="line">        <span class="keyword">if</span> self.learn_step_counter % TARGET_REPLACE_ITER == 0:</span><br><span class="line">            self.target_net.load_state_dict(self.eval_net.state_dict())</span><br><span class="line">            torch.save(self.target_net.state_dict(), <span class="string">&quot;weight/task4_DQN_&quot;</span> + str(self.learn_step_counter) + <span class="string">&quot;.pth&quot;</span>)</span><br><span class="line">        q_eval = self.eval_net(s1)</span><br><span class="line">        q_next = self.target_net(s2).detach()</span><br><span class="line">        <span class="comment"># q_target = rewards + GAMMA * q_next</span></span><br><span class="line">        q_target = GAMMA * q_next  <span class="comment"># 这里对更新公式做了特殊处理，具体处理原理详见报告</span></span><br><span class="line">        q_target[len1 - 1][0] = reward[len1 - 1]</span><br><span class="line">        q_target[-1][0] = reward[-1]</span><br><span class="line">        loss = self.loss_func(q_eval, q_target)</span><br><span class="line">        <span class="comment"># 计算，更新eval_net</span></span><br><span class="line">        self.optimizer.zero_grad()</span><br><span class="line">        loss.backward()</span><br><span class="line">        self.optimizer.step()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 通过movestack维护的每局落子顺序信息还原出当前场景、下一场景和reward作为训练数据</span></span><br><span class="line">    def generate_states_and_rewards(self, stack):  <span class="comment"># 生成状态</span></span><br><span class="line">        board1 = []</span><br><span class="line">        board2 = []</span><br><span class="line">        map1 = [[0 <span class="keyword">for</span> i <span class="keyword">in</span> range(MAPSIZE)] <span class="keyword">for</span> j <span class="keyword">in</span> range(MAPSIZE)]</span><br><span class="line">        map2 = [[0 <span class="keyword">for</span> i <span class="keyword">in</span> range(MAPSIZE)] <span class="keyword">for</span> j <span class="keyword">in</span> range(MAPSIZE)]</span><br><span class="line">        step = 0</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(stack)):</span><br><span class="line">            map1[stack[i][1]][stack[i][2]] = stack[i][0]</span><br><span class="line">            map2[stack[i][1]][stack[i][2]] = -1 * stack[i][0]  <span class="comment"># 翻转白棋的棋盘</span></span><br><span class="line">            <span class="keyword">if</span> step % 2 == 0:  <span class="comment"># 制造黑棋看见的每一轮的棋盘</span></span><br><span class="line">                board = np.copy(map1)</span><br><span class="line">                board1.append(board)</span><br><span class="line">            <span class="keyword">else</span>:  <span class="comment"># 制造白棋看见的每一轮的棋盘</span></span><br><span class="line">                board = np.copy(map2)</span><br><span class="line">                board2.append(board)</span><br><span class="line">            step += 1</span><br><span class="line">        len1 = len(board1)</span><br><span class="line">        board1_next = board1[1:]</span><br><span class="line">        board1_next.append(board1[-1])</span><br><span class="line">        board2_next = board2[1:]</span><br><span class="line">        board2_next.append(board2[-1])</span><br><span class="line">        board1.extend(board2)  <span class="comment"># 将黑棋、白棋每轮看见的棋盘拼在一起作为当前场景列表s1</span></span><br><span class="line">        board1_next.extend(board2_next)  <span class="comment"># 将黑棋、白棋每轮看见的棋盘左移一位拼在一起作为下一场景列表s2</span></span><br><span class="line">        <span class="comment"># 构造reward列表</span></span><br><span class="line">        rewards = [0 <span class="keyword">for</span> i <span class="keyword">in</span> range(len(board1))]</span><br><span class="line">        <span class="keyword">if</span> stack[-1][0] == 1:  <span class="comment"># 最后一步棋是先手，先手赢</span></span><br><span class="line">            rewards[len1 - 1] = 1</span><br><span class="line">            rewards[-1] = -1</span><br><span class="line">        <span class="keyword">elif</span> stack[-1][0] == -1:  <span class="comment"># 最后一步棋是后手，后手赢</span></span><br><span class="line">            rewards[len1 - 1] = -1</span><br><span class="line">            rewards[-1] = 1</span><br><span class="line">        now_states = torch.zeros(len(board1), 1, 15, 15)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(board1)):</span><br><span class="line">            <span class="keyword">for</span> x <span class="keyword">in</span> range(MAPSIZE):</span><br><span class="line">                <span class="keyword">for</span> y <span class="keyword">in</span> range(MAPSIZE):</span><br><span class="line">                    now_states[i][0][x][y] = board1[i][x][y]</span><br><span class="line">        next_states = torch.zeros(len(board1), 1, 15, 15)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(board1)):</span><br><span class="line">            <span class="keyword">for</span> x <span class="keyword">in</span> range(MAPSIZE):</span><br><span class="line">                <span class="keyword">for</span> y <span class="keyword">in</span> range(MAPSIZE):</span><br><span class="line">                    next_states[i][0][x][y] = board1_next[i][x][y]</span><br><span class="line">        <span class="built_in">return</span> now_states, next_states, rewards, len1  <span class="comment"># 返回当前状态列表、下一状态tensor和对应的rewards列表</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 只探索半径为1内有棋子的空位</span></span><br><span class="line">    def Has_neighbor(self, map, x, y, radius=1):</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(x - radius, x + radius + 1):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(y - radius, y + radius + 1):</span><br><span class="line">                <span class="keyword">if</span> 0 &lt;= i &lt; MAPSIZE and 0 &lt;= j &lt; MAPSIZE:</span><br><span class="line">                    <span class="keyword">if</span> map[i][j] != 0:</span><br><span class="line">                        <span class="built_in">return</span> True</span><br><span class="line">        <span class="built_in">return</span> False</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 采用epsilon贪心策略下棋</span></span><br><span class="line">    def find_best_pos(self, map, turn=1):  <span class="comment"># map:15*15list</span></span><br><span class="line">        next_states = []  <span class="comment"># 所有可能走的位置走完后的场景</span></span><br><span class="line">        positions = []  <span class="comment"># 所有可能走的位置</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 在next_map中，无论对于黑棋还是白棋，都是1表示己方棋子，-1表示敌方棋子。</span></span><br><span class="line">        next_map = [[0 <span class="keyword">for</span> i <span class="keyword">in</span> range(MAPSIZE)] <span class="keyword">for</span> j <span class="keyword">in</span> range(MAPSIZE)]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(MAPSIZE):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(MAPSIZE):</span><br><span class="line">                next_map[i][j] = turn * map[i][j]</span><br><span class="line">        sum_next = 0  <span class="comment"># 下一步可以走的棋子个数</span></span><br><span class="line">        <span class="comment"># 探索每一个可落子位置</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(MAPSIZE):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(MAPSIZE):</span><br><span class="line">                <span class="keyword">if</span> map[i][j] == 0 and self.Has_neighbor(map, i, j):  <span class="comment"># 用Has_neighbor限制探索范围</span></span><br><span class="line">                    sum_next += 1</span><br><span class="line">                    board = np.copy(next_map)</span><br><span class="line">                    board[i][j] = 1</span><br><span class="line">                    next_states.append(board)  <span class="comment"># 将该位置落子后的场景加入到列表中</span></span><br><span class="line">                    positions.append((i, j))</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 如果当前棋盘上没有棋子（开局第一次落子），那么下在中心位置</span></span><br><span class="line">        <span class="keyword">if</span> sum_next == 0:</span><br><span class="line">            sum_next = 1</span><br><span class="line">            n_states = torch.zeros(sum_next, 1, 15, 15)</span><br><span class="line">            best_pos = (7, 7)</span><br><span class="line">        <span class="keyword">else</span>:  <span class="comment"># epsilon贪心策略</span></span><br><span class="line">            <span class="keyword">if</span> np.random.uniform() &lt; EPSILON:  <span class="comment"># 选最优动作</span></span><br><span class="line">                n_states = torch.zeros(sum_next, 1, 15, 15)  <span class="comment"># 将下一步可能出现的场景对应的列表转为tensor</span></span><br><span class="line">                <span class="keyword">for</span> i <span class="keyword">in</span> range(sum_next):</span><br><span class="line">                    <span class="keyword">for</span> x <span class="keyword">in</span> range(MAPSIZE):</span><br><span class="line">                        <span class="keyword">for</span> y <span class="keyword">in</span> range(MAPSIZE):</span><br><span class="line">                            n_states[i][0][x][y] = next_states[i][x][y]</span><br><span class="line">                <span class="comment"># 将表示下一步可能出现的场景对应的tensor输入到Q估计网络中</span></span><br><span class="line">                scores = self.eval_net.forward(n_states).detach()</span><br><span class="line">                <span class="comment"># 得到Q估计网络输出分数最大的场景的下标</span></span><br><span class="line">                max_index = torch.max(scores, 0)[1].data.numpy()[0]  <span class="comment"># 、</span></span><br><span class="line">                best_pos = positions[max_index]  <span class="comment"># 找到得分最高的位置</span></span><br><span class="line">            <span class="keyword">else</span>:  <span class="comment"># 随机走一步</span></span><br><span class="line">                rdm = np.random.randint(0, len(positions))</span><br><span class="line">                best_pos = positions[rdm]</span><br><span class="line">        <span class="built_in">return</span> best_pos</span><br></pre></td></tr></table></figure>
+<h4 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a><a href="">实验结果</a></h4><p>没有经过训练的强化学习互博：<br>走法杂乱无章，不会连子、堵子</p>
+<p><img src="/Narumi-Maria.github.io/images/2021-01-13-00-41-13.gif" alt="upload successful"></p>
+<p>经过35800轮训练的强化学习<br>走法能看出策略：基本学会连子、堵子<br><img src="/Narumi-Maria.github.io/images/2021-01-13-00-54-43.gif" alt="upload successful"></p>
+<p>运行我的程序，可以看出强化学习训练的AI基本达到人类下棋水平。</p>
+
+  <p> — Dec 26, 2020</p>
+  
+
+
+          <div class="row mt-2">
+  
+    <div class="eight columns">
+      <p id="madewith">Made with ❤ and
+        <a class="footer-link icon" href="https://hexo.io" target="_blank" style="text-decoration: none;" rel="noreferrer" aria-label="Hexo.io">
+        <svg class="hexo svg-hov" width="14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Hexo.js</title><path d="M12 .007L1.57 6.056V18.05L12 23.995l10.43-6.049V5.952L12 .007zm4.798 17.105l-.939.521-.939-.521V12.94H9.08v4.172l-.94.521-.938-.521V6.89l.939-.521.939.521v4.172h5.84V6.89l.94-.521.938.521v10.222z"/></svg>
+        </a>
+        
+        at <a href="https://en.wikipedia.org/wiki/Earth" target="_blank" rel="noreferrer">Earth</a>.</p>
+        
+    </div>
+
+    <!-- Sepcial thanks to https://simpleicons.org/ for the icons -->
+    <div class="four columns mb-3 posisi" >
+      
+      <a class="ml-0 footer-link icon" href="https://github.com/adisaktijrs" target="_blank" style="text-decoration: none" rel="noreferrer" aria-label="GitHub">
+        <svg class="github svg-hov" width="18" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+      </a>
+      
+
+      
+      <a class="ml-0 footer-link icon" href="https://linkedin.com/in/adisaktijrs" target="_blank" style="text-decoration: none" rel="noreferrer" aria-label="LinkedIn">
+        <svg class="linkedin svg-hov" width="18" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>LinkedIn</title><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      
+
+      
+      <a class="ml-0 footer-link icon" href="https://twitter.com/adisaktijrs" target="_blank" style="text-decoration: none" rel="noreferrer" aria-label="Twitter">
+        <svg class="twitter svg-hov" width="18" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Twitter</title><path d="M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124C7.691 8.094 4.066 6.13 1.64 3.161c-.427.722-.666 1.561-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63.961-.689 1.8-1.56 2.46-2.548l-.047-.02z"/></svg>
+      </a>
+      
+
+      
+      <a class="ml-0 footer-link icon" href="https://instagram.com/adisaktijrs" target="_blank" style="text-decoration: none" rel="noreferrer" aria-label="Instagram">
+        <svg class="instagram svg-hov" width="18" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Instagram</title><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z"/></svg>
+      </a>
+      
+
+      
+      <a class="ml-0 footer-link icon" href="https://stackoverflow.com/story/tobiasreithmeier" target="_blank" style="text-decoration: none" rel="noreferrer" aria-label="StackOverflow">
+        <svg class="stackoverflow svh-hov" width="18" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Stack Overflow</title><path d="M15.725 0l-1.72 1.277 6.39 8.588 1.716-1.277L15.725 0zm-3.94 3.418l-1.369 1.644 8.225 6.85 1.369-1.644-8.225-6.85zm-3.15 4.465l-.905 1.94 9.702 4.517.904-1.94-9.701-4.517zm-1.85 4.86l-.44 2.093 10.473 2.201.44-2.092-10.473-2.203zM1.89 15.47V24h19.19v-8.53h-2.133v6.397H4.021v-6.396H1.89zm4.265 2.133v2.13h10.66v-2.13H6.154Z"/></svg>
+      </a>
+      
+
+    </div>
+  
+</div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+  <script src="/js/nanobar.min.js"></script>
+  <script>
+    var options = {
+      classname: 'nanobar',
+      id: 'myNanobar'
+    };
+    var nanobar = new Nanobar(options);
+    nanobar.go(30);
+    nanobar.go(76);
+    nanobar.go(100);
+  </script>
+
+</body>
+
+</html>
